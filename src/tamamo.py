@@ -68,7 +68,7 @@ bot.load_extension("cogs.trackstatus")
 @bot.event
 async def on_ready():
     print("Tamamo bot %s \nTo serve and will be of service." %version)
-    if token == 'NjA1MjE5Mzk5OTgwMjg1OTU1.XT5VGg.PSZLE7dAUrAwUuCUfSZZHeySjn4':
+    if token == 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx':
         print("Logged in as Tamamo Dev")
             
     
