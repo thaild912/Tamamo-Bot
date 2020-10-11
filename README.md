@@ -4,7 +4,7 @@
 
 Tamamo Bot is a discord bot I created for personal uses.
 
-# Main Features!
+# Main Features
 
   - Written in Python and hosted on [Heroku](https://www.heroku.com/)
   - Fetch images with sources from Gelbooru
