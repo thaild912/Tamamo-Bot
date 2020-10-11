@@ -1,0 +1,3 @@
+# hide personal database
+src/Database/*.json
+src/Database/*.py
