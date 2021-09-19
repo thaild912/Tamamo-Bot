@@ -1,7 +1,6 @@
 # hide personal database
 src/Database/*.json
 src/Database/*.py
-src/Database/*.py
 src/*.json
 # hide other IDE stuffs
 src/.git
