@@ -1,1 +1,0 @@
-worker: python src/tamamo.py
