@@ -33,7 +33,7 @@ from tamaGuild import *
 from tamaSing import *
 
 version = 'v.0.9.8'
-bot = commands.Bot(command_prefix=['<3'], intents=intents)
+bot = commands.Bot(command_prefix=['<3', '!'], intents=intents)
 bot.remove_command("help")
 guild_music_objs = {}
 
@@ -1163,26 +1163,34 @@ async def say(ctx, channel_id, *, mess):
 
 
 @bot.command(aliases=['pley', 'Play', 'PLAY', 'plya'])
-async def p(ctx, url: str, channel_id=None):
+async def play(ctx, url: str, channel_id=None):
     # check if user is in voice channel
     Knowledge = Servant(ctx, "Tamamo of Knowledge")
     user_on_voice = ctx.author.voice
 
     # help section
     if url.lower() == 'help':
+        await enhsleep(ctx, 0.5)
         await Knowledge.dialogbox("Your typical music bot. Has a lot of bugs (maybe), slapped together with alot of "
                                   "hacks and temporary fixes.")
+        await enhsleep(ctx, 0.5)
         await Knowledge.convbox("May or may not corrupt your saves, deafen your ears or eat your first-born child. "
                                 "I'm totally not responsible for any of this.")
+        await enhsleep(ctx, 0.5)
         await Knowledge.convbox("Commands included: play, loop, stop, skip, pause, resume, queue. You know, typical "
                                 "commands, self explanatory.")
-        await Knowledge.convbox("Also 'play' can work with direct music links, requires end with full filename though. "
-                                "E.g.: 'https://static.wikia.nocookie.net/kancolle/images/1/16/Kongou-Attack.ogg', "
-                                "'https://cdn.discordapp.com/attachments/684226101848965171/684226716402843755/AQUA_NEEE.mp3'")
+        await enhsleep(ctx, 0.5)
+        await Knowledge.convbox("Also 'play' can work with direct music links, requires end with full filename though.")
+        await enhsleep(ctx, 0.5)
+        await Knowledge.convbox("E.g.: 'https://static.wikia.nocookie.net/kancolle/images/1/16/Kongou-Attack.ogg', "
+                                "'https://cdn.discordapp.com/attachments/684226101848965171/684226716402843755/AQUA_NEEE.mp3'.")
+        return
 
     if not user_on_voice:
         if int(ctx.author.id) != int(ikarosID):
+            await enhsleep(ctx, 0.5)
             await Knowledge.dialogbox("You can not use this command while not being in a voice channel.")
+            await enhsleep(ctx, 0.5)
             await Knowledge.knowledgebox("Unless you are ", ikaros, " that is.")
             return
         else:
@@ -1214,7 +1222,6 @@ async def p(ctx, url: str, channel_id=None):
         }
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             result = ydl.extract_info(url, download=False)
-            print(result)
 
             # unplayable tags
             is_live = False
@@ -1237,10 +1244,13 @@ async def p(ctx, url: str, channel_id=None):
                     duration600 = True
 
             if is_live:
+                await enhsleep(ctx, 0.5)
                 await Knowledge.dialogbox("You know, I wish we could play live stuff on discord bot too.")
+                await enhsleep(ctx, 0.5)
                 await Knowledge.convbox("But alas.")
                 return
             elif duration600:
+                await enhsleep(ctx, 0.5)
                 await Knowledge.dialogbox("Due to the F2P nature of this bot, I'm not permitted to play video with a "
                                           "duration over 600 seconds.")
                 return
@@ -1255,6 +1265,7 @@ async def p(ctx, url: str, channel_id=None):
     is_playing_in_cur_channel = False
     if previous_voice_client:
         if previous_voice_client.channel.id != voice_channel.id:
+            await enhsleep(ctx, 0.5)
             await Knowledge.dialogbox(f"Adios, people of {previous_voice_client.channel.name}.")
             await previous_voice_client.disconnect()
             time.sleep(1)
@@ -1400,25 +1411,7 @@ async def queue(ctx):
 
 @bot.command()
 async def t(ctx):
-    print(ctx.guild.get_member(ctx.author.id).display_name)
-
-    # return
-    # initdict()
-    # inituser(ctx.author.id)
-    # print(x)
-    # initdb()
-    # await enhsleep(ctx, 3)
-    # await ctx.send(ctx.guild.get_member(ctx.author.id).display_name)
-    # await ctx.send(x)
-    # raise commands.CommandNotFound
-
-    # r = redis.from_url(os.environ.get("REDIS_URL"))
-    # await ctx.send(os.environ.get("REDIS_URL"))
-
-    await bot.get_channel(671742964749303827).send(ctx.guild.voice_channels)
-    vc = await ctx.guild.voice_channels[0].connect(timeout=10, reconnect=False)
-    print('s')
-    vc.stop()
+    os.mkdir('aaa')
 
 
 @bot.command()
