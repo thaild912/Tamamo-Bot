@@ -19,7 +19,7 @@ intents = discord.Intents(messages=True,
                           typing=True,
                           voice_states=True)
 
-debug = True
+debug = False
 if debug:
     with open(dir_path + "/Database/info.json") as f:
         data = json.loads(f.read())

@@ -1,1 +1,1 @@
-worker: python tamamo.py
+worker: python /app/src/tamamo.py
