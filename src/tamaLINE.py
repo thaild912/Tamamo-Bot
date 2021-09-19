@@ -64,21 +64,9 @@ class Servant:
         
     
     
-<<<<<<< HEAD
-<<<<<<< HEAD
-    async def rabbitbox(self, message, tag, punct = '', footer = None,):
-        embed = discord.Embed(title = "", color = self.color)
-        embed.add_field(name=message, value = "*%s-kun*" %tag + "_%s_" %punct, inline=False)
-=======
     async def knowledgebox(self, message, tag, punct = '', footer = None,):
         embed = discord.Embed(title = "", color = self.color)
         embed.add_field(name=message, value = "*%s*" %tag + "_%s_" %punct, inline=False)
->>>>>>> v0.9.8
-=======
-    async def knowledgebox(self, message, tag, punct = '', footer = None,):
-        embed = discord.Embed(title = "", color = self.color)
-        embed.add_field(name=message, value = "*%s*" %tag + "_%s_" %punct, inline=False)
->>>>>>> 028c222f76ca3a16372a5fd81ec2800748d5ebdc
         if footer:
             embed.set_footer(text = footer)
         if self.ctx:
@@ -160,51 +148,13 @@ async def henshindiag(servant, tag, discovered = False):
         
     else:
         if bond<80:
-<<<<<<< HEAD
-<<<<<<< HEAD
-            await servant.dialogbox("Caster Tamamo Rabbit, your personal Strategist is here.")
-=======
             await servant.dialogbox("Caster Tamamo of Knowledge, your personal Strategist is here.")
->>>>>>> v0.9.8
-=======
-            await servant.dialogbox("Caster Tamamo of Knowledge, your personal Strategist is here.")
->>>>>>> 028c222f76ca3a16372a5fd81ec2800748d5ebdc
             await enhsleep(ctx, 1)
             await servant.convbox("I guess you didn't just call me out for shits and giggles right?")
             await enhsleep(ctx, 1)
             await servant.convbox("So speak up, what kind of bussiness do you need my help with?")
             await enhsleep(ctx, 1)
         elif bond>=80:
-<<<<<<< HEAD
-<<<<<<< HEAD
-            await servant.dialogbox("Caster Tamamo Rabbit, your personal Strategist/Girlfriend is here.")
-            await enhsleep(ctx, 1)
-            await servant.rabbitbox("Ara, I see that you have been acting unbelievably stupid and reckless since I were gone, right ", tag, "?")
-            await enhsleep(ctx, 1)
-            await servant.rabbitbox("As expected of you, having become totally dependent on me, you are not able to do anything properly anymore, ", tag, ".")
-            await enhsleep(ctx, 1)
-            await servant.rabbitbox("But please refrain yourself from acting rashly from now on, as it would be troubling to the medical staff and Mashu, and other Tamamo if you get injured in the middle of you action, ", tag, ".")
-            await enhsleep(ctx, 1)
-            await servant.rabbitbox("Otherwise I will not forgive you the next time you injured yourself due to not using your brain, ", tag, ".")
-            await enhsleep(ctx, 1)
-            await servant.rabbitbox("What, I'm being to harsh on you, ", tag, "?")
-            await enhsleep(ctx, 1)
-            await servant.rabbitbox("Are you perhaps expecting me to be sweeter toward you because I'm your girlfriend, ", tag, "?")
-            await enhsleep(ctx, 1)
-            await servant.convbox("Then it's impossible, I'm a tsundere after all.")
-            await enhsleep(ctx, 1)
-            await servant.rabbitbox("And isn't that a Strategist/Girlfriend 's responsibility is to keep their loved one, in this case, you, alive, right ", tag, "?")
-            await enhsleep(ctx, 1)
-            await servant.rabbitbox("So stop complaining, be grateful and do as I said, ", tag, ".")
-            await enhsleep(ctx, 1)
-            await servant.convbox("Idiot.")
-            await enhsleep(ctx, 1)
-            await servant.rabbitbox("Just kidding. Did you think I would really say that, ", tag, "?")
-            await enhsleep(ctx, 1)
-            await servant.rabbitbox("On the second thought, I might actually say that. Since your IQ is indeed that low after all, ", tag, ".")
-=======
-=======
->>>>>>> 028c222f76ca3a16372a5fd81ec2800748d5ebdc
             await servant.dialogbox("Caster Tamamo of Knowledge, your personal Strategist/Girlfriend is here.")
             await enhsleep(ctx, 1)
             await servant.knowledgebox("Ara, I see that you have been acting unbelievably stupid and reckless since I were gone, right ", tag, "?")
@@ -230,10 +180,6 @@ async def henshindiag(servant, tag, discovered = False):
             await servant.knowledgebox("Just kidding. Did you think I would really say that, ", tag, "?")
             await enhsleep(ctx, 1)
             await servant.knowledgebox("On the second thought, I might actually say that. Since your IQ is indeed that low after all, ", tag, ".")
-<<<<<<< HEAD
->>>>>>> v0.9.8
-=======
->>>>>>> 028c222f76ca3a16372a5fd81ec2800748d5ebdc
         
 
 
@@ -245,15 +191,7 @@ async def enhsleep(ctx, second):
     
     
 async def splitpage(bot, ctx, page, maxpage):
-<<<<<<< HEAD
-<<<<<<< HEAD
-    servant = Servant(ctx, "Tamamo Rabbit")
-=======
     servant = Servant(ctx, "Tamamo of Knowledge")
->>>>>>> v0.9.8
-=======
-    servant = Servant(ctx, "Tamamo of Knowledge")
->>>>>>> 028c222f76ca3a16372a5fd81ec2800748d5ebdc
     await servant.dialogbox('This is the end of part %d/%d.' %(page, maxpage))
     await enhsleep(ctx, 1)
     await servant.convbox('Do you want to continue reading?(y/n)', 'ᵗᶦᵐᵉᵒᵘᵗ ¹⁵ˢ')
@@ -281,25 +219,11 @@ async def splitpage(bot, ctx, page, maxpage):
     
 
 async def pagesethelper(bot, ctx, maxpage):
-<<<<<<< HEAD
-<<<<<<< HEAD
-    Rabbit = Servant(ctx, "Tamamo Rabbit")
-    
-    await Rabbit.dialogbox("Looks like what you've entered is not a number or an invalid number. Please try again.")
-    await enhsleep(ctx,1)
-    await Rabbit.convbox("Please enter a number after this line (max page number is %d):" %maxpage, '²⁰ˢ ᶜᵒᵒˡᵈᵒʷⁿ ⁻ ᶠᵃᶦˡ ᵗᵒ ᵉⁿᵗᵉʳ ᵗʰᵉ ʳᶦᵍʰᵗ ᶠᵒʳᵐᵃᵗ ʷᶦˡˡ ᵇᵉ ʰᵉᵃᵛʸ ˢᵃⁿᶜᵗᶦᵒⁿᵉᵈ')
-=======
-=======
->>>>>>> 028c222f76ca3a16372a5fd81ec2800748d5ebdc
     Knowledge = Servant(ctx, "Tamamo of Knowledge")
     
     await Knowledge.dialogbox("Looks like what you've entered is not a number or an invalid number. Please try again.")
     await enhsleep(ctx,1)
     await Knowledge.convbox("Please enter a number after this line (max page number is %d):" %maxpage, '²⁰ˢ ᶜᵒᵒˡᵈᵒʷⁿ ⁻ ᶠᵃᶦˡ ᵗᵒ ᵉⁿᵗᵉʳ ᵗʰᵉ ʳᶦᵍʰᵗ ᶠᵒʳᵐᵃᵗ ʷᶦˡˡ ᵇᵉ ʰᵉᵃᵛʸ ˢᵃⁿᶜᵗᶦᵒⁿᵉᵈ')
-<<<<<<< HEAD
->>>>>>> v0.9.8
-=======
->>>>>>> 028c222f76ca3a16372a5fd81ec2800748d5ebdc
     
     def pred(m):
         return m.author == ctx.author and m.channel == ctx.channel
@@ -308,62 +232,20 @@ async def pagesethelper(bot, ctx, maxpage):
     try:
         msg = await bot.wait_for('message', check=pred, timeout =20.0)
     except asyncio.TimeoutError:
-<<<<<<< HEAD
-<<<<<<< HEAD
-        await Rabbit.dialogbox("No input received. Please try again later.")
-=======
         await Knowledge.dialogbox("No input received. Please try again later.")
->>>>>>> v0.9.8
-=======
-        await Knowledge.dialogbox("No input received. Please try again later.")
->>>>>>> 028c222f76ca3a16372a5fd81ec2800748d5ebdc
         await enhsleep(ctx,1)
     else:
         
         try:
             pnum = int(msg.content)
         except ValueError:
-<<<<<<< HEAD
-<<<<<<< HEAD
-            await Rabbit.dialogbox("Wrong format.")
-            await enhsleep(ctx,1)
-            await Rabbit.convbox("You are not fit to be our Master.")
-=======
             await Knowledge.dialogbox("Wrong format.")
             await enhsleep(ctx,1)
             await Knowledge.convbox("You are not fit to be our Master.")
->>>>>>> v0.9.8
-=======
-            await Knowledge.dialogbox("Wrong format.")
-            await enhsleep(ctx,1)
-            await Knowledge.convbox("You are not fit to be our Master.")
->>>>>>> 028c222f76ca3a16372a5fd81ec2800748d5ebdc
             sanction(ctx.author.id)
             return False
         else:
             if pnum <0:
-<<<<<<< HEAD
-<<<<<<< HEAD
-                await Rabbit.dialogbox("Done playing around?")
-                await enhsleep(ctx,1)
-                await Rabbit.convbox("You are not fit to be our Master.")
-                sanction(ctx.author.id)
-                return False
-            elif pnum==0 or pnum >maxpage:
-                await Rabbit.dialogbox("Page number should be between 1 and %d." %maxpage)
-                await enhsleep(ctx,1)
-                await Rabbit.convbox("Please try again later.")
-                return False
-            else:
-                setpage(ctx.author.id, pnum)
-                await Rabbit.dialogbox("Page set.")
-                return True
-            
-async def checkpoint(ctx,bondreq):
-    servant = Servant(ctx,"Tamamo Rabbit")
-=======
-=======
->>>>>>> 028c222f76ca3a16372a5fd81ec2800748d5ebdc
                 await Knowledge.dialogbox("Done playing around?")
                 await enhsleep(ctx,1)
                 await Knowledge.convbox("You are not fit to be our Master.")
@@ -381,10 +263,6 @@ async def checkpoint(ctx,bondreq):
             
 async def checkpoint(ctx,bondreq):
     servant = Servant(ctx,"Tamamo of Knowledge")
-<<<<<<< HEAD
->>>>>>> v0.9.8
-=======
->>>>>>> 028c222f76ca3a16372a5fd81ec2800748d5ebdc
     adopted = getadopt(ctx.author.id)
     bond = getbond(ctx.author.id)
     if not adopted:

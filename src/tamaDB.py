@@ -158,15 +158,7 @@ async def serrateup(ctx, ser):
     curryear = now.year
     jpyear = curryear-2
     startyear = 2015
-<<<<<<< HEAD
-<<<<<<< HEAD
-    servant = Servant(ctx, "Tamamo Rabbit")
-=======
     servant = Servant(ctx, "Tamamo of Knowledge")
->>>>>>> v0.9.8
-=======
-    servant = Servant(ctx, "Tamamo of Knowledge")
->>>>>>> 028c222f76ca3a16372a5fd81ec2800748d5ebdc
     
     with open(dir_path + '/Database/gacha' + '.pkl', 'rb') as f1, open(dir_path + '/Database/serdict' + '.pkl', 'rb') as f2:
         gacha = pickle.load(f1)
