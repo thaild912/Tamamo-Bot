@@ -1,0 +1,21 @@
+# hide personal database
+src/Database/*.json
+<<<<<<< HEAD
+<<<<<<< HEAD
+src/Database/*.py
+=======
+=======
+>>>>>>> 028c222f76ca3a16372a5fd81ec2800748d5ebdc
+src/Database/*.py
+src/*.json
+# hide other IDE stuffs
+src/.git
+src/.idea
+src/__pycache__
+# hide heroku uploading scripts
+<<<<<<< HEAD
+/heroku.sh
+>>>>>>> v0.9.8
+=======
+/heroku.sh
+>>>>>>> 028c222f76ca3a16372a5fd81ec2800748d5ebdc
