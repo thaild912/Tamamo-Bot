@@ -11,13 +11,12 @@ Tamamo Bot is a discord bot I created for personal uses.
   - Fetch current PDT time from [World Time API](http://worldtimeapi.org/)
   - Scrape and serialize banners data from [Fate Grand/Order Cirnopedia](https://fate-go.cirnopedia.org/)
   - Store and send user-defined gifs/animated emoji on demand.
+  - Play music from certain urls.
 
 Tamamo Bot used Heroku's Redis addon to keep data intacts from Heroku's ephemeral file system.
 
 
 ### Todos
-
- - Add function to play user uploaded audio file on demands.
  - Refactor code for more customizations.
 
 License
