@@ -32,6 +32,7 @@ class audioPlay():
         # in case nothing was downloaded
         if not os.listdir(dir_path + f'/Audio/{self.channel_id}/'):
             await self.stop()
+            return
 
         while os.listdir(dir_path + f'/Audio/{self.channel_id}/'):
             # queue empty if loop is not set

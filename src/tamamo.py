@@ -1283,7 +1283,7 @@ async def play(ctx, url: str, channel_id=None):
     if is_playing_in_cur_channel:
         list_of_files = glob.glob(dir_path + f'/Audio/{voice_channel.id}/*')
         latest_file = max(list_of_files, key=os.path.getctime)
-        start_pos = int(latest_file.split('\\')[-1].split('---')[0]) + 1
+        start_pos = int(re.findall(r'(\d+)---', latest_file)[0]) + 1
         await ctx.channel.send("`Song added to queue`")
     else:
         try:
