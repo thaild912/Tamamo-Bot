@@ -1,6 +1,6 @@
 # Tamamo Bot
 
-[![Build Status](https://img.shields.io/badge/version-0.8.8-brightgreen)](https://github.com/thaild912/Tamamo-Bot)
+[![Build Status](https://img.shields.io/badge/version-0.9.8-brightgreen)](https://github.com/thaild912/Tamamo-Bot)
 
 Tamamo Bot is a discord bot I created for personal uses.
 
