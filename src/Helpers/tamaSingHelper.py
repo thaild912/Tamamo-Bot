@@ -50,7 +50,7 @@ async def download_and_play(ctx, path, servant, privileged, args, guild_music_ob
         if not urls:
             return
 
-    if playing_in_cur_channel:
+    if not playing_in_cur_channel:
         if is_youtube:
             await download_yt_songs(path, voice_channel, urls[:1], pos)
             await voice_channel.connect()
