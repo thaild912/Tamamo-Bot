@@ -67,7 +67,7 @@ async def download_and_play(ctx, path, servant, privileged, args, guild_music_ob
         else:
             await download_direct_song_url(path, voice_channel, url, pos)
 
-        ctx.channel.send("Song(s) added to queue.")
+        await ctx.channel.send("Song(s) added to queue.")
 
 
 
