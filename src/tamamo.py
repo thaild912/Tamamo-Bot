@@ -1,14 +1,10 @@
-import discord
-from discord.ext import commands
-from discord.ext import tasks
 import json
 import os
-import asyncio
-import redis
-from discord.utils import get
-import youtube_dl
-import glob
-import subprocess
+
+import discord
+from discord.ext import tasks, commands
+
+from Helpers.tamaSingHelper import download_and_play
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 intents = discord.Intents(messages=True,
@@ -25,17 +21,17 @@ if debug:
         data = json.loads(f.read())
         os.environ["REDIS_URL"] = data['Server']['Redis']
 
-from user import *
-from tamaLINE import *
 from tamAPI import *
 from tamaDB import *
 from tamaGuild import *
 from tamaSing import *
+from JSONhelper import *
 
 version = 'v.0.9.8'
 bot = commands.Bot(command_prefix=['<3', '!'], intents=intents)
 bot.remove_command("help")
 guild_music_objs = {}
+lines_loading_obj = JsonHelper(dir_path + "/Database/lines.json", dir_path + "/Database/info.json")
 
 with open(dir_path + "/Database/info.json") as f:
     data = json.loads(f.read())
@@ -148,13 +144,13 @@ async def welcome(ctx):
             await Tamamo.dialogbox("Mikon! Welcome home My Husband %s." % mname)
             await enhsleep(ctx, 1)
             await Tamamo.convbox("Do you want dinner first?")
-            await Tamamo.convbox("Or bath first?");
+            await Tamamo.convbox("Or bath first?")
             await enhsleep(ctx, 1)
-            await Tamamo.convbox("Or perhaps...");
+            await Tamamo.convbox("Or perhaps...")
             await enhsleep(ctx, 1)
-            await Tamamo.convbox("わ。");
+            await Tamamo.convbox("わ。")
             await enhsleep(ctx, 1)
-            await Tamamo.convbox("た。");
+            await Tamamo.convbox("た。")
             await enhsleep(ctx, 1)
             await Tamamo.convbox("し。", "ᵘᶠᵘᶠᵘ♡")
 
@@ -1049,7 +1045,7 @@ async def addemoji(ctx, emoji='', url=''):
         await enhsleep(ctx, 1)
         await Knowledge.convbox(
             "Not only did you get the emoji syntax wrong, the 'thing' you inputted in url is not even a gif url.")
-        return 0;
+        return 0
 
     elif not checkemoji(emoji):
         await enhsleep(ctx, 1)
@@ -1163,13 +1159,13 @@ async def say(ctx, channel_id, *, mess):
 
 
 @bot.command(aliases=['pley', 'Play', 'PLAY', 'plya'])
-async def play(ctx, url: str, channel_id=None):
+async def play(ctx, *args):
     # check if user is in voice channel
     Knowledge = Servant(ctx, "Tamamo of Knowledge")
-    user_on_voice = ctx.author.voice
+
 
     # help section
-    if url.lower() == 'help':
+    if len(args) == 1 and args[0] == 'help':
         await enhsleep(ctx, 0.5)
         await Knowledge.dialogbox("Your typical music bot. Has a lot of bugs (maybe), slapped together with alot of "
                                   "hacks and temporary fixes.")
@@ -1186,147 +1182,8 @@ async def play(ctx, url: str, channel_id=None):
                                 "'https://cdn.discordapp.com/attachments/684226101848965171/684226716402843755/AQUA_NEEE.mp3'.")
         return
 
-    if not user_on_voice:
-        if int(ctx.author.id) != int(ikarosID):
-            await enhsleep(ctx, 0.5)
-            await Knowledge.dialogbox("You can not use this command while not being in a voice channel.")
-            await enhsleep(ctx, 0.5)
-            await Knowledge.knowledgebox("Unless you are ", ikaros, " that is.")
-            return
-        else:
-            if not channel_id:
-                return
-            voice_channel = discord.utils.get(ctx.guild.voice_channels, id=int(channel_id))
-    else:
-        voice_channel = ctx.author.voice.channel
+    await download_and_play(ctx, dir_path, Knowledge, True, args, guild_music_objs)
 
-    # check if link is a youtube link
-    is_youtube = False
-    if ''.join(re.findall(r'(\w+)', url.lower())).find('youtube') != -1:
-        is_youtube = True
-    elif ''.join(re.findall(r'(\w+)', url.lower())).find('soundcloud') != -1:
-        await Knowledge.dialogbox('Soundclound is not supported yet? Or never will be, depends.')
-        return
-
-    if is_youtube:
-        youtube_dl_query = []
-        ydl_opts = {
-            'format': 'bestaudio/best',
-            'postprocessors': [{
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',
-                'preferredquality': '192',
-            }],
-            'quiet': True,
-            'outtmpl': dir_path + f'/Audio/{voice_channel.id}/1 - %(title)s.%(ext)s'
-        }
-        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            result = ydl.extract_info(url, download=False)
-
-            # unplayable tags
-            is_live = False
-            duration600 = False
-
-            # is youtube playlist
-            if 'entries' in result:
-                for i in result['entries']:
-                    if i['is_live']:
-                        is_live = True
-                        break
-                    elif int(i['duration']) >600:
-                        duration600 = True
-                        break
-                    youtube_dl_query.append(i["webpage_url"])
-            else:
-                if result['is_live']:
-                    is_live = True
-                elif int(result['duration']) > 600:
-                    duration600 = True
-
-            if is_live:
-                await enhsleep(ctx, 0.5)
-                await Knowledge.dialogbox("You know, I wish we could play live stuff on discord bot too.")
-                await enhsleep(ctx, 0.5)
-                await Knowledge.convbox("But alas.")
-                return
-            elif duration600:
-                await enhsleep(ctx, 0.5)
-                await Knowledge.dialogbox("Due to the F2P nature of this bot, I'm not permitted to play video with a "
-                                          "duration over 600 seconds.")
-                return
-
-
-
-
-    # check if the bot is active on another voice channel
-    # disconnect if the prev voice channel is different from the intended or the bot has not joined a channel
-    # and move to the new channel.
-    previous_voice_client = discord.utils.get(bot.voice_clients, guild=ctx.guild)
-    is_playing_in_cur_channel = False
-    if previous_voice_client:
-        if previous_voice_client.channel.id != voice_channel.id:
-            await enhsleep(ctx, 0.5)
-            await Knowledge.dialogbox(f"Adios, people of {previous_voice_client.channel.name}.")
-            await previous_voice_client.disconnect()
-            time.sleep(1)
-            await voice_channel.connect()
-            os.rmdir(dir_path + f'/Audio/{previous_voice_client.channel.id}')
-        else:
-            is_playing_in_cur_channel = True
-    else:
-        await voice_channel.connect()
-    voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
-
-    # set counter for playlist and queueing purpose
-    start_pos = 0
-    # if there is already music playing in current channel, get its counter
-    if is_playing_in_cur_channel:
-        list_of_files = glob.glob(dir_path + f'/Audio/{voice_channel.id}/*')
-        latest_file = max(list_of_files, key=os.path.getctime)
-        start_pos = int(re.findall(r'(\d+)---', latest_file)[0]) + 1
-        await ctx.channel.send("`Song added to queue`")
-    else:
-        try:
-            os.mkdir(dir_path + f'/Audio/{voice_channel.id}/')
-        except FileExistsError:
-            pass
-
-    if is_youtube:
-        # download each song separately so I can apply custom name
-        for i in range(len(youtube_dl_query)):
-            ydl_opts_sep = {
-                'format': 'bestaudio/best',
-                'postprocessors': [{
-                    'key': 'FFmpegExtractAudio',
-                    'preferredcodec': 'mp3',
-                    'preferredquality': '192',
-                }],
-                'quiet': True,
-                'outtmpl': dir_path + f'/Audio/{voice_channel.id}/{start_pos + i}---%(title)s.%(ext)s'
-            }
-            with youtube_dl.YoutubeDL(ydl_opts_sep) as ydl:
-                ydl.download([youtube_dl_query[i]])
-
-    else:
-        track_file_name = url.split('/')[-1]
-        with open(dir_path + f'/Audio/{voice_channel.id}/{start_pos}---{track_file_name}', 'wb+') as track:
-            track.write(requests.get(url).content)
-            track_path = dir_path + f'/Audio/{voice_channel.id}/{start_pos}---{track_file_name}'
-            #os.popen(f'ffmpeg -i "{track_path}" -vn -ar 44100 -ac 2 -b:a 192k "{track_path[:-4]}.mp3" -hide_banner -loglevel error')
-            #os.popen()
-
-
-    # play music if not already playing in current channel, otherwise just add more song to queue
-    if not is_playing_in_cur_channel:
-        play_obj = audioPlay(bot, ctx, voice, voice_channel.id)
-        guild_music_objs[str(voice_channel.id)] = play_obj
-        try:
-            await play_obj.play(True)
-        except (discord.errors.ClientException, FileNotFoundError) as e:
-            if e.__str__() == "Not connected to voice." and isinstance(e, discord.errors.ClientException):
-                pass
-            else:
-                raise e
 
 # background task deleting unused voice playing object
 @tasks.loop(seconds=0.5)
@@ -1341,7 +1198,7 @@ async def stop(ctx):
     if not ctx.author.voice:
         await ctx.channel.send("`You are not even in a voice channel.`")
     try:
-        await guild_music_objs[str(ctx.author.voice.channel.id)].stop()
+        await guild_music_objs[str(ctx.author.voice.channel.id)].stop(message=False)
     except KeyError:
         await ctx.channel.send("`There is no music currently playing in this voice channel.`")
 
@@ -1354,7 +1211,7 @@ async def loop(ctx):
     except KeyError:
         await ctx.channel.send("`There is no music currently playing in this voice channel.`")
 
-@bot.command()
+@bot.command(aliases=['fs'])
 async def skip(ctx):
     if not ctx.author.voice:
         await ctx.channel.send("`You are not even in a voice channel.`")

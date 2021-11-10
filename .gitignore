@@ -6,5 +6,6 @@ src/*.json
 src/.git
 src/.idea
 src/__pycache__
+src/Helpers/__pycache__
 # hide heroku uploading scripts
 /heroku.sh

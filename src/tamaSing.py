@@ -1,12 +1,9 @@
-import discord
-from discord.ext import commands
-import time
-import re
-import json
-import requests
 import asyncio
 import os
 import shutil
+
+import discord
+
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
 class audioPlay():
@@ -42,7 +39,7 @@ class audioPlay():
             elif self.loop or start:
                 now_playing = dir_path + f'/Audio/{self.channel_id}/' + \
                               os.listdir(dir_path + f'/Audio/{self.channel_id}/')[0]
-                if not first_time_name_display:
+                if first_time_name_display:
                     await self.ctx.channel.send(f"`Now playing:` **{now_playing.split('/')[-1][4:-4]}**")
                     first_time_name_display = False
             # handle members of a playlist normally
@@ -50,6 +47,8 @@ class audioPlay():
                 now_playing = dir_path + f'/Audio/{self.channel_id}/' + \
                               os.listdir(dir_path + f'/Audio/{self.channel_id}/')[1]
                 await self.ctx.channel.send(f"`Now playing:` **{now_playing.split('/')[-1][4:-4]}**")
+                os.remove(dir_path + f'/Audio/{self.channel_id}/' +
+                          os.listdir(dir_path + f'/Audio/{self.channel_id}/')[0])
 
             # start playing
             self.voice_client.play(discord.FFmpegPCMAudio(now_playing))
@@ -108,14 +107,17 @@ class audioPlay():
 
 
 
-    async def stop(self):
+    async def stop(self, message=True):
         self.stopped = True
-        await self.ctx.channel.send("`Queue empty. Disconnecting...`")
+        if message:
+            await self.ctx.channel.send("`Queue empty. Disconnecting...`")
         await self.voice_client.disconnect()
         while True:
             try:
                 shutil.rmtree(dir_path + f'/Audio/{self.channel_id}/')
             except (PermissionError, FileNotFoundError):
+                if os.path.exists(dir_path + f'/Audio/{self.channel_id}/'):
+                    break
                 continue
             else:
                 break

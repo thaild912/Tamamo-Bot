@@ -1,14 +1,10 @@
-import requests
-import json
 from random import randint
-from tamaLINE import *
-import os
-from dateutil import parser
+
+import requests
 from bs4 import BeautifulSoup
-import re
-import datetime
-import pickle
+
 from tamaDB import *
+
 
 async def fetch(servant, nsfw = None):
     dir_path = os.path.dirname(os.path.realpath(__file__))
